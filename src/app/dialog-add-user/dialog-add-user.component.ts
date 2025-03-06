@@ -7,6 +7,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { User } from '../../models/user.class';
+import { getFirestore, collection, addDoc, getDocs } from "@angular/fire/firestore";
+import { Firestore } from '@angular/fire/firestore';
+
+
 
 
 
@@ -32,6 +36,7 @@ import { User } from '../../models/user.class';
 export class DialogAddUserComponent {
   user = new User();
   birthDate!: Date;
+  firestore: Firestore = inject(Firestore)
   
   
  
@@ -45,13 +50,13 @@ export class DialogAddUserComponent {
 
     this.user.birthDate=this.birthDate.getTime();
     console.log('current User', this.user)
-   
+    addDoc(this.getUserRef(),this.user.toJson())
    
 
   }
 
    getUserRef(){
-   
+    return collection(this.firestore,'Users')
   }
 }
 
